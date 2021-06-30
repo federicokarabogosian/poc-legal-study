@@ -1,0 +1,13 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "poc-legal-study"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-f9otbb90bsrf"
+s3_prefix = "poc-legal-study"
+region = "eu-west-3"
+profile = "personal"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+parameter_overrides = "BucketName=\"poc-legal-study\""
+

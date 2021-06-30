@@ -1,0 +1,47 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  generate-procedure
+
+  Sample SAM Template for generate-procedure
+
+Globals:
+  Function:
+    Timeout: 60
+    MemorySize: 128
+
+Parameters:
+  BucketName:
+    Type: String
+    Default: poc-legal-study
+
+Resources:
+  GenerateProcedureFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/
+      Handler: app.lambda_handler
+      Runtime: python3.8
+      Policies:
+        - S3FullAccessPolicy:
+            BucketName: !Ref BucketName
+      Environment:
+        Variables:
+          BUCKET_NAME: !Ref BucketName
+      Events:
+        GenerateProcedure:
+          Type: Api
+          Properties:
+            Path: /generate-procedure
+            Method: post
+
+Outputs:
+  GenerateProcedureApi:
+    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/generate-procedure/"
+  GenerateProcedureFunction:
+    Description: "Generate Procedure Lambda Function ARN"
+    Value: !GetAtt GenerateProcedureFunction.Arn
+  GenerateProcedureFunctionIamRole:
+    Description: "Implicit IAM Role created for Generate Procedure function"
+    Value: !GetAtt GenerateProcedureFunctionRole.Arn
